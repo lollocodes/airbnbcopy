@@ -8,7 +8,7 @@ let cardData = [];
     return data;
   }
   fetchDataJSON().then(places => {
-    places; // fetched movies
+    places; 
     cardData.push(places)
 
     cardData[0].forEach(element => {
