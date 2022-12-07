@@ -1,17 +1,48 @@
 const cardContainer = document.querySelector('.store')
-const cardTemplate = fetch('./template/card.html')
-const bnbData = fetch('./assets/data/bnb.json')
 
-const initializeCardData = async () => {
-  let template, card
-  await Promise.all([cardTemplate, bnbData]).then(async (responses) => {
-    console.log(responses)
-    template = await responses[0].text()
-    cards = await responses[1].json()
-  })
+let cardData = [];
 
-  return { template: template, cards: cards }
-}
+  async function fetchDataJSON() {
+    const response = await fetch('./assets/data/bnb.json');
+    const movies = await response.json();
+    return movies;
+  }
+  fetchDataJSON().then(movies => {
+    movies; // fetched movies
+    cardData.push(movies)
+
+    cardData[0].forEach(element => {
+      let card = document.createElement("article");
+      card.classList.add("card")
+      card.innerHTML = `
+      
+      <div class="card-image-container">
+        <img
+          class="card-image"
+          width="300"
+          itemprop="image"
+          src="${element.image.ref}"
+          alt="${element.image.alt}"
+        />
+      </div>
+    
+      <i class="fa-solid fa-heart heart-this"></i>
+      <section class="card-body">
+        <div class="card-description" itemprop="description">
+          <h3 class="description-name" itemprop="name">${element.name}</h3>
+          <p class="description-host">${element.host}</p>
+          <p class="description-date">${element.date}</p>
+          <p class="description-price">${element.price}</p>
+        </div>
+    
+        <span class="card-rating">${element.rating}</span>
+      </section>`;
+      cardContainer.appendChild(card)
+
+
+    });
+  });
+
 
 function myFunction() {
   var x = document.getElementById("user-action-list");
@@ -34,25 +65,3 @@ scrollNavbar = () => {
     pageNav.classList.remove("scrolled");
   }
 }
-
-const loadCards = (async () => {
-  const domParser = new DOMParser()
-  const { template, cards } = await initializeCardData()
-
-  cards.forEach((card) => {
-    const cardElement = template
-      .slice()
-      .replace('{{card-name}}', card.name)
-      .replace('{{card-host}}', card.host)
-      .replace('{{card-date}}', card.date)
-      .replace('{{card-rating}}', card.rating)
-      .replace('{{card-price}}', card.price)
-      .replace('{{card-image}}', card.image.ref)
-      .replace('{{card-alt}}', card.image.ref)
-
-    let pizzaDoc = domParser.parseFromString(cardElement, 'text/html')
-    let element = pizzaDoc.documentElement.querySelector('.card')
-
-    cardContainer.append(element)
-  })
-})()
