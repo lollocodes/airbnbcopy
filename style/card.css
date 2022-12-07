@@ -36,7 +36,6 @@
     transition: height 0.2s ease-in; 
 }
 
-
 .card:hover .description-host, 
 .card:hover .description-date {
         color: #383838;
@@ -62,7 +61,6 @@
         transform: scale(1.5); 
         opacity: 1;
 } 
-
 
 .card-body {
     box-sizing: border-box;
