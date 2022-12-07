@@ -4,12 +4,12 @@ let cardData = [];
 
   async function fetchDataJSON() {
     const response = await fetch('./assets/data/bnb.json');
-    const movies = await response.json();
-    return movies;
+    const data = await response.json();
+    return data;
   }
-  fetchDataJSON().then(movies => {
-    movies; // fetched movies
-    cardData.push(movies)
+  fetchDataJSON().then(places => {
+    places; // fetched movies
+    cardData.push(places)
 
     cardData[0].forEach(element => {
       let card = document.createElement("article");
